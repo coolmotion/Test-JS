@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
+
+    <title>Document</title>
+</head>
+<body>
+    <div class="videos"></div>
+
+<script>
+$(document).ready(function() {
+    // Replace with your actual YouTube channel ID and API key
+    const channelId = "UCyWUq9_T5idQJvkg4G-DIYg";
+    const apiKey = "AIzaSyA9mfTcysIKWiU48uB3Rcx_tu7-VeX4WjY";
+
+    const url = `https://www.googleapis.com/youtube/v3/search?part=snippet&channelId=${channelId}&maxResults=3&order=date&type=video&key=${apiKey}`;
+
+    $.getJSON(url, function(data) {
+        const items = data.items;
+
+        if (items && items.length > 0) {
+            $(".videos").empty(); // Clear placeholder content
+
+            for (let i = 0; i < items.length; i++) {
+                const video = items[i];
+                const videoId = video.id.videoId;
+                const thumbnailUrl = video.snippet.thumbnails.medium.url;
+                const title = video.snippet.title;
+                const channelTitle = video.snippet.channelTitle;
+
+                const videoElement = $(`<div class="video">
+                    <a href="https://www.youtube.com/watch?v=${videoId}" target="_blank">
+                        <img src="${thumbnailUrl}" alt="${title}">
+                    </a>
+                    <div class="title">${title}</div>
+                    <div class="channel">by ${channelTitle}</div>
+                </div>`);
+
+                $(".videos").append(videoElement);
+            }
+        } else {
+            console.error("No videos found");
+            // Handle no videos case (e.g., display a message)
+        }
+    }).fail(function(jqXHR, textStatus, errorThrown) {
+        console.error("Error fetching YouTube data:", errorThrown);
+        // Handle API error (e.g., display an error message)
+    });
+});
+</script>
+
+<style>
+.videos {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    max-width: 900px; /* Set a maximum width for responsiveness */
+    margin: 0 auto; /* Center the videos horizontally */
+}
+
+.video {
+    width: 300px; /* Adjust width as needed */
+    border: 1px solid #ccc;
+    padding: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.video a {
+    text-decoration: none; /* Remove underlining on links */
+}
+
+.video img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+}
+
+.video .title {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.video .channel {
+    color: #ccc;
+    font-size: 0.8em;
+}
+</style>
+
+</body>
+</html>
