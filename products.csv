@@ -1,11 +1,7 @@
-name,price,quantity
-T-Shirt,19.99,10
-Coffee Mug,12.50,20
-Wireless Headphones,79.99,5
-Laptop Backpack,45.00,8
-Novel,14.95,3
-Running Shoes,99.99,2
-Water Bottle,8.99,15
-Desk Lamp,24.99,7
-Plant,19.99,4
-Notebook,6.99,12
+name,category
+Product A,all
+Product B,category1
+Product C,category2
+Product D,all
+Product E,category1
+
